@@ -1,0 +1,30 @@
+name: Running Action- sum
+on:
+  workflow_dispatch:
+    inputs:
+      ID:
+        description: 'InvocationID'
+        required: false
+      InvokeName:
+        description: 'FunctionInvoke'
+        required: true
+      FaaSrLog:
+        description: 'FaaSrLog'
+        required: false
+
+jobs:
+  run_docker_image:
+    runs-on: ubuntu-latest
+    container: ghcr.io/faasr/github-actions-tidyverse
+    env:
+      SECRET_PAYLOAD: ${{ secrets.SECRET_PAYLOAD }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      PAYLOAD_REPO: ${{ vars.PAYLOAD_REPO }}
+      INPUT_ID: ${{ github.event.inputs.ID || ''  }}
+      INPUT_INVOKENAME: ${{ github.event.inputs.InvokeName || 'sum' }}
+      INPUT_FAASRLOG: ${{ github.event.inputs.FaaSrLog || 'FaaSrLog'  }}
+    steps:
+    - name: run Rscript
+      run: |
+        cd /action
+        Rscript faasr_start_invoke_github-actions.R

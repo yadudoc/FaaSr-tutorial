@@ -1,0 +1,14 @@
+.env
+*~
+*.swp
+*.swo
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+cache
+*.o
+*.so
+faasr_data
+faasr_gh_local_repo
